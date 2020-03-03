@@ -1,5 +1,9 @@
 export default {
-  mode: 'spa',
+  srcDir: 'src',
+  mode: 'universal',
+  env: {
+    baseUrl: process.env.BASE_URL || "http://localhost:3000"
+  },
   /*
    ** Headers of the page
    */
@@ -58,26 +62,18 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    proxy: true,
-    baseURL: "/"
+    // proxy: true,
+    baseURL: process.env.BASE_URL
   },
   proxy: {
-    // '/connpass': {
-    //   target: 'https://connpass.com',
-    //   pathRewrite: {
-    //     '^/connpass': ''
-    //   }
-    // },
-    // '/blog': {
-    //   target: 'https://blog.428lab.net',
-    //   pathRewrite: {
-    //     '^/blog': ''
-    //   }
-    // }
+    '/api': {
+      target: 'https://lab-website-develop-f0781.web.app'
+    }
   },
   /*
    ** Build configuration
    */
+  buildDir: process.env.DEV ? '.nuxt':'./functions/nuxt',
   build: {
     /*
      ** You can extend webpack config here
