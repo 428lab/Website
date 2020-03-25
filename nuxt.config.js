@@ -103,6 +103,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
+    '@nuxtjs/google-analytics',
   ],
   /*
    ** Axios module configuration
@@ -116,6 +117,9 @@ export default {
     '/api': {
       target: 'https://lab-website-develop-f0781.web.app'
     }
+  },
+  googleAnalytics: {
+    id: 'UA-159420374-2'
   },
   /*
    ** Build configuration
