@@ -20,7 +20,7 @@ export default {
       { hid: 'og:url', property: 'og:url', content: 'https://428lab.net/' },
       { hid: 'og:title', property: 'og:title', content: '四谷ラボ-未来志向オープンイノベーションラボラトリ' },
       { hid: 'og:description', property: 'og:description', content: '家でも職場でもない第３の仕事場兼遊び場として、知的好奇心と刺激の場・四谷ラボで誰でも自由に参加して研究・交流・発信しよう' },
-      { hid: 'og:image', property: 'og:image', content: 'https://428lab.net/yotsuyalab_8.webp' },
+      { hid: 'og:image', property: 'og:image', content: 'https://428lab.net/ogp.jpg' },
       // ogp:facebook
       { property: 'article:author', content: 'https://www.facebook.com/%E5%9B%9B%E8%B0%B7%E3%83%A9%E3%83%9C-102455797824507/' },
       // { property: 'fb:app_id', content: 'FacebookAppID' },
@@ -30,9 +30,9 @@ export default {
       { name: 'twitter:title', content: '四谷ラボ-オープンイノベーションラボラトリ' },
       { name: 'twitter:url', content: 'https://428lab.net/' },
       { name: 'twitter:description', content: '家でも職場でもない第３の仕事場兼遊び場として、知的好奇心と刺激の場・四谷ラボで誰でも自由に参加して研究・交流・発信しよう' },
-      { name: 'twitter:image', content: 'https://428lab.net/yotsuyalab_8.webp' },
+      { name: 'twitter:image', content: 'https://428lab.net/ogp.jpg' },
       // microdata
-      { hid: 'microdata:imagae', itemprop: 'image', content: 'https://428lab.net/yotsuyalab_8.webp' },
+      { hid: 'microdata:imagae', itemprop: 'image', content: 'https://428lab.net/ogp.jpg' },
       { hid: 'microdata:name', itemprop: 'name', content: '四谷ラボ-オープンイノベーションラボラトリ' },
       { hid: 'microdata:description', itemprop: 'description', content: '家でも職場でもない第３の仕事場兼遊び場として、知的好奇心と刺激の場・四谷ラボで誰でも自由に参加して研究・交流・発信しよう' },
       // GEO
