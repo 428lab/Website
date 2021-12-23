@@ -1,13 +1,5 @@
 <template>
   <article class="container">
-    <section class="mt-3 border rounded py-3 px-4">
-      <p class="p-0 m-0">
-        <a href="https://covid19.428lab.net/" target="_blank">
-          COVID-19 流行予測サイト
-        </a>を公開しています。
-      </p>
-    </section>
-
     <div class="row">
       <section class="col-12 col-lg-6 mt-3">
         <div
