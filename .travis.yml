@@ -5,23 +5,62 @@ node_js:
 cache:
   directories:
     - "node_modules"
+    - "functions/node_modules"
+  yarn: true
 
 branches:
   only:
   - release
+  - develop
 
 install:
   - yarn install
-  - yarn generate
+  - yarn build
+  - cd functions
+  - yarn install
+  - cd ..
 
 script:
   - echo "Skipping tests"
 
+before_deploy:
+  # - yarn install
+  # - yarn build
+  # - cd functions
+  # - yarn install
+  # - cd ..
+  - ls
+  - pwd
+
 deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_ACCESS_TOKEN
-  target-branch: gh-pages
-  local-dir: dist
-  on:
-    branch: release
+# release
+  - provider: script
+    skip-cleanup: true
+    script: bash deploy.sh default
+    on:
+      branch: release
+# develop
+  - provider: script
+    skip-cleanup: true
+    script: bash deploy.sh develop
+    on:
+      branch: develop
+
+after_success:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success $WEBHOOK_URL
+after_failure:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL
+
+
+# GitHub Pages
+#  provider: pages
+#  skip-cleanup: true
+#  github-token: $GITHUB_ACCESS_TOKEN
+#  target-branch: gh-pages
+#  local-dir: dist
+#  on:
+#    branch: release
