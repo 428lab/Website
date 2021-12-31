@@ -15,9 +15,11 @@ branches:
 
 install:
   - yarn install
+  - yarn upgrade
   - yarn build
   - cd functions
   - yarn install
+  - yarn upgrade
   - cd ..
 
 script:
