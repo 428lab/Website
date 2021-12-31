@@ -14,11 +14,7 @@ RUN apt-get update && \
     apt-get install -y vim less
 
 RUN apt-get update && \
-    apt-get install -y curl fonts-noto-cjk
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends ca-certificates
-RUN apt-get update && \
-    apt-get install -y openjdk-11-jre-headless 
+    apt-get install -y curl openjdk-11-jre-headless fonts-noto-cjk
 
 RUN npm install -g firebase-tools
 
