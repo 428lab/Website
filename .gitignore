@@ -93,3 +93,5 @@ sw.*
 #firebase deply
 public
 .firebase
+
+/firebase
