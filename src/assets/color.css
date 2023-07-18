@@ -35,3 +35,12 @@
 .bg-connpass {
   background-color: #666;
 }
+
+a {
+  text-decoration: none !important;
+}
+
+.badge {
+  /* color: inhelit; */
+  color: #212519;
+}
