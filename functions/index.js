@@ -21,7 +21,7 @@ const nuxt = new Nuxt({
   //   }
   // }
 });
-async function handleReques(req, res) {
+async function handleRequest(req, res) {
   await nuxt.ready();
   return await nuxt.render(req, res);
 };
@@ -57,5 +57,5 @@ app.use("/api", async (req, res) => {
     rss: dataRss
   })
 })
-app.use(handleReques);
+app.use(handleRequest);
 exports.ssr = functions.https.onRequest(app);
