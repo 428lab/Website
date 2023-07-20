@@ -35,9 +35,6 @@
     "@types/xml2js": "^0.4.11",
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
-    "fast-xml-parser": "^4.2.6",
-    "http-proxy-middleware": "^2.0.6",
-    "jsonp": "^0.2.1",
-    "node-fetch-jsonp": "^1.0.1"
+    "fast-xml-parser": "^4.2.6"
   }
 }

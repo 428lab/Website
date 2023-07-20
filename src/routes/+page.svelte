@@ -4,25 +4,29 @@
   import type { AxiosResponse } from "axios";
   import { XMLParser } from "fast-xml-parser";
   import type { RssFeed, RssItem } from "$lib/types";
-  // @ts-ignore
-  // import fetchJsonp from "node-fetch-jsonp";
-  import jsonp from "jsonp";
 
   let articles: RssItem[] = [];
   (async () => {
-    const response: AxiosResponse<any> = await axios.get(
-      "https://blog.428lab.net/rss"
-    );
-    const parser = new XMLParser();
-    const rss: RssFeed = parser.parse(response.data);
-    articles = rss.rss.channel.item.slice(0, 5);
+    try {
+      const response: AxiosResponse<any> = await axios.get(
+        "https://blog.428lab.net/rss"
+      );
+      const parser = new XMLParser();
+      const rss: RssFeed = parser.parse(response.data);
+      articles = rss.rss.channel.item.slice(0, 5);
+    } catch (error) {}
   })();
-  // let events: any[] = [];
-  // (async () => {
-  //   const response: AxiosResponse<any> = await axios.get(
-  //     "/api/v1/event/?series_id=9445&order=2&count=7"
-  //   );
-  // })();
+  let events: any[] = [];
+  (async () => {
+    try {
+      const response: AxiosResponse<any> = await axios.get(
+        "https://connpass.428lab.net/connpass"
+      );
+      events = response.data.slice(0, 7);
+    } catch (error) {
+      console.error(error);
+    }
+  })();
 </script>
 
 <article class="container">
@@ -62,18 +66,20 @@
           <img src="/blandlogo/connpass_logo_2.png" alt="" height="20" />
         </a>
       </div>
-      <!-- {#each events as item}
+      {#each events as item}
         <div class="mt-3">
           <a href={item.event_url} target="_blank">
             <span class="text-dark">{item.title}</span>
           </a>
           <br />
           <div class="d-flex align-items-center mt-1">
-            <small>{dateFormat(item.started_at)}</small>
+            <small
+              >{format(new Date(item.started_at), "yyyy/MM/dd HH:mm")}</small
+            >
             <div class="badge border p-1 ms-3">{item.hash_tag}</div>
           </div>
         </div>
-      {/each} -->
+      {/each}
     </section>
     <hr />
   </div>
