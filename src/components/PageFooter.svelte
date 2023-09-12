@@ -14,7 +14,7 @@
               justify-content-center
             "
         >
-          <img src="/blandlogo/github.svg" height="28px" />
+          <img src="/blandlogo/github.svg" height="28px" alt="" />
           <span class="h4 ms-3 text-white mb-0 d-none d-md-flex">GitHub</span>
         </a>
         <a
@@ -29,7 +29,7 @@
               justify-content-center
             "
         >
-          <img src="/blandlogo/facebook.svg" height="28px" />
+          <img src="/blandlogo/facebook.svg" height="28px" alt="" />
           <span class="h4 ms-3 text-white mb-0 d-none d-md-flex">Facebook</span>
         </a>
         <a
@@ -44,7 +44,7 @@
               justify-content-center
             "
         >
-          <img src="/blandlogo/twitter.svg" height="28px" />
+          <img src="/blandlogo/twitter.svg" height="28px" alt="" />
           <span class="h4 ms-3 text-white mb-0 d-none d-md-flex">Twitter</span>
         </a>
       </div>
