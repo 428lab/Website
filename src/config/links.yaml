@@ -1,0 +1,55 @@
+# SNS / 外部リンク設定
+# footerBar: フッターのSNSバーに表示するリンク（表示順）
+# footerLinks: フッターの「リンク」セクションに表示するリンク
+# heroCtaで使うリンクもここで管理
+
+sns:
+  github:
+    name: GitHub
+    url: https://github.com/428lab
+    icon: /blandlogo/github.svg
+    color: "#333333"
+  x:
+    name: X
+    url: https://x.com/lab_428
+    icon: /blandlogo/twitter.svg
+    color: "#000000"
+  bluesky:
+    name: Bluesky
+    url: https://bsky.app/profile/428lab.net
+    icon: /blandlogo/bluesky.svg
+    color: "#0085ff"
+  facebook:
+    name: Facebook
+    url: https://www.facebook.com/%E5%9B%9B%E8%B0%B7%E3%83%A9%E3%83%9C-102455797824507/
+    icon: /blandlogo/facebook.svg
+    color: "#1778f2"
+  discord:
+    name: Discord
+    url: https://discord.gg/CHANGE_ME
+    icon: /blandlogo/discord.svg
+    color: "#5865f2"
+
+# フッターSNSバーに表示する順番（sns のキーを指定）
+footerBar:
+  - github
+  - x
+  - bluesky
+  - facebook
+  - discord
+
+# フッターリンクセクション
+footerLinks:
+  - name: Connpass
+    url: https://428lab.connpass.com
+  - name: ブログ
+    url: https://blog.428lab.net
+  - name: GitHub
+    url: https://github.com/428lab
+  - name: Discord
+    url: https://discord.gg/CHANGE_ME
+
+# 後援
+sponsor:
+  name: 全力機械株式会社
+  url: https://www.zenryokukikai.com/

@@ -1,33 +1,131 @@
 ---
+import { linksConfig } from '../config/loadLinks';
+
+const currentYear = new Date().getFullYear();
+const { sns, footerBar, footerLinks, sponsor } = linksConfig;
+const barEntries = footerBar.map((key) => sns[key]).filter(Boolean);
 ---
 
-<footer class="text-center">
-  <div class="bg-dark">
+<footer class="site-footer">
+  <!-- SNS Bar -->
+  <div class="sns-bar">
     <div class="container">
-      <div class="row">
-        <a
-          href="https://github.com/428lab"
-          class="col bg-github d-block py-3 d-flex align-items-end justify-content-center"
-        >
-          <img src="/blandlogo/github.svg" height="28" alt="" />
-          <span class="h4 ms-3 text-white mb-0 d-none d-md-flex">GitHub</span>
-        </a>
-        <a
-          href="https://www.facebook.com/%E5%9B%9B%E8%B0%B7%E3%83%A9%E3%83%9C-102455797824507/"
-          class="col bg-facebook d-block py-3 d-flex align-items-end justify-content-center"
-        >
-          <img src="/blandlogo/facebook.svg" height="28" alt="" />
-          <span class="h4 ms-3 text-white mb-0 d-none d-md-flex">Facebook</span>
-        </a>
-        <a
-          href="https://twitter.com/lab_428"
-          class="col bg-twitter d-block py-3 d-flex align-items-end justify-content-center"
-        >
-          <img src="/blandlogo/twitter.svg" height="28" alt="" />
-          <span class="h4 ms-3 text-white mb-0 d-none d-md-flex">Twitter</span>
-        </a>
+      <div class="row g-0">
+        {barEntries.map((entry) => (
+          <a
+            href={entry.url}
+            class="col d-flex align-items-center justify-content-center py-3"
+            style={`background-color: ${entry.color};`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src={entry.icon} height="24" alt={entry.name} />
+            <span class="ms-2 text-white fw-semibold d-none d-md-inline">{entry.name}</span>
+          </a>
+        ))}
       </div>
     </div>
   </div>
-  <p class="mt-5 mb-5">&copy; 2020 - 四谷ラボ</p>
+
+  <!-- Footer Info -->
+  <div class="footer-info">
+    <div class="container">
+      <div class="row py-4">
+        <div class="col-md-4 mb-3 mb-md-0">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <img src="/lab_icon.svg" alt="四谷ラボ" height="28" />
+            <span class="fw-bold">四谷ラボ</span>
+          </div>
+          <p class="footer-text">
+            誰でも自由に参加して研究・交流・発信できる<br />未来志向のオープンイノベーションラボ
+          </p>
+        </div>
+        <div class="col-md-4 mb-3 mb-md-0">
+          <h4 class="footer-heading">リンク</h4>
+          <ul class="footer-links">
+            {footerLinks.map((link) => (
+              <li><a href={link.url} target="_blank" rel="noopener noreferrer">{link.name}</a></li>
+            ))}
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h4 class="footer-heading">後援</h4>
+          <p class="footer-text">
+            <a href={sponsor.url} target="_blank" rel="noopener noreferrer">{sponsor.name}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Copyright -->
+  <div class="footer-copyright">
+    <div class="container">
+      <p class="mb-0 py-3">&copy; 2020 - {currentYear} 四谷ラボ</p>
+    </div>
+  </div>
 </footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+  }
+
+  .footer-info {
+    background-color: var(--color-secondary, #2d3748);
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .footer-heading {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-text {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.7;
+  }
+
+  .footer-text a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .footer-text a:hover {
+    color: #ffffff;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: 0.35rem;
+  }
+
+  .footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .footer-links a:hover {
+    color: #ffffff;
+  }
+
+  .footer-copyright {
+    background-color: #1a202c;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    font-size: 0.8rem;
+  }
+</style>

@@ -1,8 +1,14 @@
-.text-twitter {
-  color: #1da1f2;
+.text-x {
+  color: #000000;
 }
 .text-facebook {
   color: #1778f2;
+}
+.text-bluesky {
+  color: #0085ff;
+}
+.text-discord {
+  color: #5865f2;
 }
 .text-reddit {
   color: #ff4500;
@@ -17,11 +23,17 @@
   color: #666;
 }
 
-.bg-twitter {
-  background-color: #1da1f2;
+.bg-x {
+  background-color: #000000;
 }
 .bg-facebook {
   background-color: #1778f2;
+}
+.bg-bluesky {
+  background-color: #0085ff;
+}
+.bg-discord {
+  background-color: #5865f2;
 }
 .bg-reddit {
   background-color: #ff4500;
