@@ -1,11 +1,54 @@
 ---
 ---
 
-<header class="pt-3">
+<header class="site-header">
   <div class="container">
-    <div class="d-md-flex align-items-end justify-content-between py-3 container px-0">
-      <h1><img src="/lab_icon.svg" alt="" height="64" /> 四谷ラボ</h1>
-      <h2 class="h5 text-right">後援：全力機械株式会社</h2>
-    </div>
+    <nav class="d-flex align-items-center justify-content-between py-3">
+      <a href="/" class="site-logo">
+        <img src="/logo.png" alt="四谷ラボ - YOTSUYA Laboratory." height="40" />
+      </a>
+      <div class="d-none d-md-flex align-items-center gap-3">
+        <a href="#about" class="nav-link-custom">四谷ラボとは</a>
+        <a href="#join" class="nav-link-custom">参加方法</a>
+        <a href="#news" class="nav-link-custom">最新情報</a>
+        <a href="#access" class="nav-link-custom">アクセス</a>
+      </div>
+    </nav>
   </div>
 </header>
+
+<style>
+  .site-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .site-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+
+  .site-logo-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-secondary, #2d3748);
+  }
+
+  .nav-link-custom {
+    color: var(--color-text-secondary, #4a5568);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.25rem 0;
+    transition: color 150ms ease;
+  }
+
+  .nav-link-custom:hover {
+    color: var(--color-primary, #1a73e8);
+  }
+</style>

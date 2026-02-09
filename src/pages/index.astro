@@ -1,128 +1,174 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { format } from 'date-fns';
-import { XMLParser } from 'fast-xml-parser';
+import { linksConfig } from '../config/loadLinks';
+import NewsFeed from '../components/NewsFeed.astro';
 
-interface RssItem {
-  title: string;
-  link: string;
-  description?: string;
-  pubDate: string;
-  category?: string | string[];
-}
-
-interface ConnpassEvent {
-  event_url: string;
-  title: string;
-  started_at: string;
-  hash_tag: string;
-}
-
-let articles: RssItem[] = [];
-let events: ConnpassEvent[] = [];
-
-try {
-  const rssRes = await fetch('https://blog.428lab.net/rss');
-  const rssText = await rssRes.text();
-  const parser = new XMLParser();
-  const parsed = parser.parse(rssText);
-  const channel = parsed?.rss?.channel;
-  if (channel?.item) {
-    const rawItems = Array.isArray(channel.item) ? channel.item : [channel.item];
-    articles = rawItems.slice(0, 5).map((it: Record<string, unknown>) => ({
-      title: String(it.title ?? ''),
-      link: String(it.link ?? ''),
-      pubDate: String(it.pubDate ?? ''),
-      category: it.category === undefined ? [] : Array.isArray(it.category) ? it.category : [it.category],
-    }));
-  }
-} catch (_) {
-  // keep default empty
-}
-
-try {
-  const connpassRes = await fetch('https://connpass.428lab.net/connpass');
-  const connpassData = await connpassRes.json();
-  events = (Array.isArray(connpassData) ? connpassData : []).slice(0, 7);
-} catch (_) {
-  // keep default empty
-}
-
-function normalizeCategory(cat: string | string[] | undefined): string[] {
-  if (cat == null) return [];
-  return Array.isArray(cat) ? cat : [cat];
-}
+const { sns } = linksConfig;
 ---
 
 <Layout>
-  <article class="container">
-    <div class="row">
-      <section class="col-12 col-lg-6 mt-3">
-        <div class="py-1 mb-2 border-bottom border-success h4 d-flex justify-content-between align-items-center">
-          <div>ブログ新着</div>
-          <a href="https://blog.428lab.net" class="text-dark">
-            <img src="/blandlogo/hatena_text.svg" alt="" height="40" />
-          </a>
-        </div>
-        {articles.map((item) => (
-          <div class="mt-3">
-            <a href={item.link} target="_blank" rel="noopener noreferrer">
-              <span class="text-dark">{item.title}</span>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <h1 class="hero-title">
+            誰でも参加自由<br />未来志向の街の<br />オープンイノベーションラボ
+          </h1>
+          <p class="hero-subtitle">
+            中高生から大人まで、AI・IoT・VR・ガジェットに興味がある人を歓迎。
+            家でも職場でもない第３の場所で、自由に研究・交流・発信しよう。
+          </p>
+          <div class="hero-cta">
+            <a href="https://428lab.connpass.com" class="btn-primary-custom" target="_blank" rel="noopener noreferrer">
+              イベントに参加する
             </a>
-            <br />
-            <small>{format(new Date(item.pubDate), 'yyyy/MM/dd HH:mm')}</small>
-            <div class="mt-2 text-wrap">
-              {normalizeCategory(item.category).map((cat) => (
-                <div class="p-1 me-2 border rounded badge d-inline-block">{cat}</div>
-              ))}
+            <a href="https://blog.428lab.net" class="btn-outline-custom" target="_blank" rel="noopener noreferrer">
+              ブログを読む
+            </a>
+            <a href={sns.github.url} class="btn-outline-custom" target="_blank" rel="noopener noreferrer">
+              GitHubを見る
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2 class="section-title">四谷ラボとは</h2>
+      <p class="section-subtitle">
+        2019年夏に誕生した、東京・四谷にあるオープンイノベーションラボ
+      </p>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-blue">&#128101;</div>
+            <h3>誰でも参加自由</h3>
+            <p>
+              技術者に限らず、AIやIoT、VR、ガジェットに興味のある方なら誰でも歓迎。
+              中高生から大人まで、多様なバックグラウンドの人々が集まります。
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-green">&#128295;</div>
+            <h3>設備・機器を自由に利用</h3>
+            <p>
+              ラボに設置された機器や設備を自由に使って、勉強・研究・プロジェクトに取り組めます。
+              中高生でも高価な機器にアクセスできます。
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-purple">&#127760;</div>
+            <h3>持続可能なコミュニティ</h3>
+            <p>
+              「四谷ラボモデル」として、持続可能なコミュニティの方法論を確立。
+              このモデルを他の地域や海外にも広げるべくシステム化を進めています。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Join Section -->
+  <section id="join" class="section section-subtle">
+    <div class="container">
+      <h2 class="section-title">参加方法</h2>
+      <p class="section-subtitle">
+        四谷ラボに参加するのはとても簡単です
+      </p>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="join-step">
+            <div class="join-step-number">1</div>
+            <div class="join-step-content">
+              <h4>Connpassでイベントをチェック</h4>
+              <p>
+                <a href="https://428lab.connpass.com" target="_blank" rel="noopener noreferrer">四谷ラボのConnpassページ</a>で開催予定のイベントを確認できます。
+                勉強会、もくもく会、ハッカソンなどさまざまなイベントを開催しています。
+              </p>
             </div>
           </div>
-        ))}
-      </section>
-      <section class="col-12 col-lg-6 mt-3">
-        <div class="py-1 mb-2 border-bottom border-primary h4 d-flex justify-content-between align-items-center">
-          <div>開催イベント</div>
-          <a href="https://428lab.connpass.com" class="p-2">
-            <img src="/blandlogo/connpass_logo_2.png" alt="" height="20" />
-          </a>
-        </div>
-        {events.map((item) => (
-          <div class="mt-3">
-            <a href={item.event_url} target="_blank" rel="noopener noreferrer">
-              <span class="text-dark">{item.title}</span>
-            </a>
-            <br />
-            <div class="d-flex align-items-center mt-1">
-              <small>{format(new Date(item.started_at), 'yyyy/MM/dd HH:mm')}</small>
-              <div class="badge border p-1 ms-3">{item.hash_tag}</div>
+          <div class="join-step">
+            <div class="join-step-number">2</div>
+            <div class="join-step-content">
+              <h4>興味のあるイベントに申し込み</h4>
+              <p>
+                気になるイベントを見つけたら、Connpassから参加申し込み。
+                初めての方も気軽に参加できるイベントが多数あります。
+              </p>
             </div>
           </div>
-        ))}
-      </section>
-      <hr />
+          <div class="join-step">
+            <div class="join-step-number">3</div>
+            <div class="join-step-content">
+              <h4>コミュニティに参加しよう</h4>
+              <p>
+                <a href={sns.x.url} target="_blank" rel="noopener noreferrer">X</a>や
+                <a href={sns.github.url} target="_blank" rel="noopener noreferrer">GitHub</a>で最新情報をフォロー。
+                <a href={sns.discord.url} target="_blank" rel="noopener noreferrer">Discord</a>でもオンラインで交流できます。
+              </p>
+            </div>
+          </div>
+          <div class="text-center mt-4">
+            <a href="https://428lab.connpass.com" class="btn-accent" target="_blank" rel="noopener noreferrer">
+              イベント一覧を見る
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="row mt-4">
-      <section class="col-lg-4">
-        <h3>ラボ所在地</h3>
-        <p class="h5">
-          〒160-0004
-          <br />東京都 新宿区 四谷二丁目 8-8
-          <br />第5三和ビル 802号室
-        </p>
-      </section>
-      <section class="col-lg-8 px-0">
-        <iframe
-          title="google maps"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d399.080352925273!2d139.72523855578095!3d35.68720744886242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xa49500887322918a!2z56ysNeS4ieWSjOODk-ODqw!5e0!3m2!1sja!2sjp!4v1580548401896!5m2!1sja!2sjp"
-          width="100%"
-          height="400"
-          frameborder="0"
-          style="border:0;"
-          allowfullscreen
-        />
-      </section>
+  </section>
+
+  <!-- News Feed Section -->
+  <NewsFeed />
+
+  <!-- Access Section -->
+  <section id="access" class="section section-subtle">
+    <div class="container">
+      <h2 class="section-title">アクセス</h2>
+      <p class="section-subtitle">四谷ラボの所在地と地図</p>
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <div class="access-card h-100">
+            <div class="access-info">
+              <h3>ラボ所在地</h3>
+              <p>
+                〒160-0004<br />
+                東京都 新宿区 四谷二丁目 8-8<br />
+                第5三和ビル 802号室
+              </p>
+              <h3 class="mt-4">最寄り駅</h3>
+              <p>
+                JR中央線・総武線「四ツ谷駅」徒歩5分<br />
+                東京メトロ丸ノ内線・南北線「四ツ谷駅」徒歩5分
+              </p>
+              <h3 class="mt-4">後援</h3>
+              <p class="mb-0">
+                <a href="https://www.zenryokukikai.com/" target="_blank" rel="noopener noreferrer">全力機械株式会社</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="access-card h-100">
+            <iframe
+              title="google maps"
+              class="access-map"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d399.080352925273!2d139.72523855578095!3d35.68720744886242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xa49500887322918a!2z56ysNeS4ieWSjOODk-ODqw!5e0!3m2!1sja!2sjp!4v1580548401896!5m2!1sja!2sjp"
+              loading="lazy"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="row mt-4"></div>
-    <div class="p-5"></div>
-  </article>
+  </section>
 </Layout>

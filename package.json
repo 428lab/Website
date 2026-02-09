@@ -2,6 +2,10 @@
   "name": "428lab_website",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=18.20.8",
+    "npm": ">=9.6.5"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -12,6 +16,7 @@
     "astro": "^5.17.1",
     "axios": "^1.13.5",
     "date-fns": "^4.1.0",
-    "fast-xml-parser": "^5.3.5"
+    "fast-xml-parser": "^5.3.5",
+    "yaml": "^2.8.2"
   }
 }
