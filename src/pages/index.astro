@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { linksConfig } from '../config/loadLinks';
+import NewsFeed from '../components/NewsFeed.astro';
 
 const { sns } = linksConfig;
 ---
@@ -125,6 +126,9 @@ const { sns } = linksConfig;
       </div>
     </div>
   </section>
+
+  <!-- News Feed Section -->
+  <NewsFeed />
 
   <!-- Access Section -->
   <section id="access" class="section section-subtle">

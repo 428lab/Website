@@ -1,0 +1,270 @@
+---
+---
+
+<section id="news" class="section">
+  <div class="container">
+    <h2 class="section-title">最新情報</h2>
+    <p class="section-subtitle">ブログの新着記事と開催予定のイベント</p>
+    <div class="row g-4">
+      <!-- Blog -->
+      <div class="col-lg-6">
+        <div class="news-card">
+          <div class="news-card-header">
+            <h3 class="news-card-title">ブログ新着</h3>
+            <a href="https://blog.428lab.net" target="_blank" rel="noopener noreferrer" class="news-card-link">
+              すべて見る →
+            </a>
+          </div>
+          <div class="news-card-body" id="blog-feed">
+            <div class="news-loading">読み込み中...</div>
+          </div>
+        </div>
+      </div>
+      <!-- Events -->
+      <div class="col-lg-6">
+        <div class="news-card">
+          <div class="news-card-header">
+            <h3 class="news-card-title">開催イベント</h3>
+            <a href="https://428lab.connpass.com" target="_blank" rel="noopener noreferrer" class="news-card-link">
+              すべて見る →
+            </a>
+          </div>
+          <div class="news-card-body" id="events-feed">
+            <div class="news-loading">読み込み中...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import axios from 'axios';
+  import { XMLParser } from 'fast-xml-parser';
+  import { format } from 'date-fns';
+
+  interface RssItem {
+    title: string;
+    link: string;
+    pubDate: string;
+    category?: string | string[];
+  }
+
+  interface ConnpassEvent {
+    event_url: string;
+    title: string;
+    started_at: string;
+    hash_tag?: string;
+  }
+
+  function normalizeCategory(cat: string | string[] | undefined): string[] {
+    if (cat == null) return [];
+    return Array.isArray(cat) ? cat : [cat];
+  }
+
+  function formatDate(dateStr: string): string {
+    try {
+      return format(new Date(dateStr), 'yyyy/MM/dd HH:mm');
+    } catch {
+      return dateStr;
+    }
+  }
+
+  function escapeHtml(str: string): string {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  async function loadBlogFeed() {
+    const container = document.getElementById('blog-feed');
+    if (!container) return;
+
+    try {
+      const response = await axios.get('https://blog.428lab.net/rss');
+      const parser = new XMLParser();
+      const parsed = parser.parse(response.data);
+      const channel = parsed?.rss?.channel;
+      
+      if (channel?.item) {
+        const rawItems = Array.isArray(channel.item) ? channel.item : [channel.item];
+        const articles: RssItem[] = rawItems.slice(0, 5).map((it: Record<string, unknown>) => ({
+          title: String(it.title ?? ''),
+          link: String(it.link ?? ''),
+          pubDate: String(it.pubDate ?? ''),
+          category: it.category === undefined ? [] : Array.isArray(it.category) ? it.category : [it.category],
+        }));
+
+        if (articles.length > 0) {
+          container.innerHTML = articles.map((item) => `
+            <a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="news-item">
+              <span class="news-item-title">${escapeHtml(item.title)}</span>
+              <span class="news-item-meta">
+                <time class="news-item-date">${formatDate(item.pubDate)}</time>
+                ${normalizeCategory(item.category).map((cat) => `<span class="news-tag">${escapeHtml(cat)}</span>`).join('')}
+              </span>
+            </a>
+          `).join('');
+          return;
+        }
+      }
+      container.innerHTML = '<div class="news-empty">記事がありません</div>';
+    } catch (error) {
+      console.error('Failed to load blog feed:', error);
+      container.innerHTML = '<div class="news-error">読み込みに失敗しました</div>';
+    }
+  }
+
+  async function loadEventsFeed() {
+    const container = document.getElementById('events-feed');
+    if (!container) return;
+
+    try {
+      const response = await axios.get('https://connpass.428lab.net/connpass');
+      const events: ConnpassEvent[] = (Array.isArray(response.data) ? response.data : []).slice(0, 7);
+
+      if (events.length > 0) {
+        container.innerHTML = events.map((item) => `
+          <a href="${escapeHtml(item.event_url)}" target="_blank" rel="noopener noreferrer" class="news-item">
+            <span class="news-item-title">${escapeHtml(item.title)}</span>
+            <span class="news-item-meta">
+              <time class="news-item-date">${formatDate(item.started_at)}</time>
+              ${item.hash_tag ? `<span class="news-tag">${escapeHtml(item.hash_tag)}</span>` : ''}
+            </span>
+          </a>
+        `).join('');
+      } else {
+        container.innerHTML = '<div class="news-empty">イベントがありません</div>';
+      }
+    } catch (error) {
+      console.error('Failed to load events feed:', error);
+      container.innerHTML = '<div class="news-error">読み込みに失敗しました</div>';
+    }
+  }
+
+  loadBlogFeed();
+  loadEventsFeed();
+</script>
+
+<style is:global>
+  /* --- News Card --- */
+  .news-card {
+    background: var(--color-bg, #fff);
+    border-radius: var(--radius-lg, 0.75rem);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .news-card-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .news-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-secondary, #2d3748);
+    margin: 0;
+  }
+
+  .news-card-link {
+    font-size: 0.85rem;
+    color: var(--color-primary, #1a73e8);
+    text-decoration: none;
+  }
+
+  .news-card-link:hover {
+    color: var(--color-primary-dark, #1557b0);
+  }
+
+  .news-card-body {
+    padding: 0.5rem 1.5rem;
+    min-height: 120px;
+  }
+
+  /* --- News Item (動的に挿入される) --- */
+  .news-item {
+    display: block;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    text-decoration: none;
+    transition: background-color 150ms ease;
+  }
+
+  .news-item:last-child {
+    border-bottom: none;
+  }
+
+  .news-item:hover {
+    background-color: var(--color-bg-subtle, #f7f8fa);
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .news-item-title {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text, #1a202c);
+    line-height: 1.5;
+    margin-bottom: 0.25rem;
+  }
+
+  .news-item:hover .news-item-title {
+    color: var(--color-primary, #1a73e8);
+  }
+
+  .news-item-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .news-item-date {
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #718096);
+  }
+
+  .news-tag {
+    display: inline-block;
+    padding: 0.1rem 0.4rem;
+    background-color: var(--color-bg-muted, #edf2f7);
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary, #4a5568);
+  }
+
+  .news-loading,
+  .news-empty,
+  .news-error {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--color-text-muted, #718096);
+    font-size: 0.9rem;
+  }
+
+  .news-error {
+    color: #dc3545;
+  }
+
+  @media (max-width: 767.98px) {
+    .news-card-header {
+      padding: 0.75rem 1rem;
+    }
+
+    .news-card-body {
+      padding: 0.5rem 1rem;
+    }
+
+    .news-item:hover {
+      margin-left: -1rem;
+      margin-right: -1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+</style>
