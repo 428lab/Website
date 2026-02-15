@@ -4,10 +4,10 @@
 <section id="news" class="section">
   <div class="container">
     <h2 class="section-title">最新情報</h2>
-    <p class="section-subtitle">ブログの新着記事と開催予定のイベント</p>
+    <p class="section-subtitle">ブログの新着記事</p>
     <div class="row g-4">
       <!-- Blog -->
-      <div class="col-lg-6">
+      <div class="col-lg-8 mx-auto">
         <div class="news-card">
           <div class="news-card-header">
             <h3 class="news-card-title">ブログ新着</h3>
@@ -16,20 +16,6 @@
             </a>
           </div>
           <div class="news-card-body" id="blog-feed">
-            <div class="news-loading">読み込み中...</div>
-          </div>
-        </div>
-      </div>
-      <!-- Events -->
-      <div class="col-lg-6">
-        <div class="news-card">
-          <div class="news-card-header">
-            <h3 class="news-card-title">開催イベント</h3>
-            <a href="https://428lab.connpass.com" target="_blank" rel="noopener noreferrer" class="news-card-link">
-              すべて見る →
-            </a>
-          </div>
-          <div class="news-card-body" id="events-feed">
             <div class="news-loading">読み込み中...</div>
           </div>
         </div>
@@ -48,13 +34,6 @@
     link: string;
     pubDate: string;
     category?: string | string[];
-  }
-
-  interface ConnpassEvent {
-    event_url: string;
-    title: string;
-    started_at: string;
-    hash_tag?: string;
   }
 
   function normalizeCategory(cat: string | string[] | undefined): string[] {
@@ -113,35 +92,7 @@
     }
   }
 
-  async function loadEventsFeed() {
-    const container = document.getElementById('events-feed');
-    if (!container) return;
-
-    try {
-      const response = await axios.get('https://connpass.428lab.net/connpass');
-      const events: ConnpassEvent[] = (Array.isArray(response.data) ? response.data : []).slice(0, 7);
-
-      if (events.length > 0) {
-        container.innerHTML = events.map((item) => `
-          <a href="${escapeHtml(item.event_url)}" target="_blank" rel="noopener noreferrer" class="news-item">
-            <span class="news-item-title">${escapeHtml(item.title)}</span>
-            <span class="news-item-meta">
-              <time class="news-item-date">${formatDate(item.started_at)}</time>
-              ${item.hash_tag ? `<span class="news-tag">${escapeHtml(item.hash_tag)}</span>` : ''}
-            </span>
-          </a>
-        `).join('');
-      } else {
-        container.innerHTML = '<div class="news-empty">イベントがありません</div>';
-      }
-    } catch (error) {
-      console.error('Failed to load events feed:', error);
-      container.innerHTML = '<div class="news-error">読み込みに失敗しました</div>';
-    }
-  }
-
   loadBlogFeed();
-  loadEventsFeed();
 </script>
 
 <style is:global>
