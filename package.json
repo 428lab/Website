@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "astro": "^5.17.1",
-    "axios": "^1.13.5",
+    "axios": "^1.16.0",
     "date-fns": "^4.1.0",
     "fast-xml-parser": "^5.7.0",
     "yaml": "^2.8.3"
