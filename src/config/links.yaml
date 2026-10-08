@@ -26,7 +26,7 @@ sns:
     color: "#1778f2"
   discord:
     name: Discord
-    url: https://discord.gg/CHANGE_ME
+    url: https://discord.gg/pb4UegTBYj
     icon: /blandlogo/discord.svg
     color: "#5865f2"
 
@@ -47,7 +47,7 @@ footerLinks:
   - name: GitHub
     url: https://github.com/428lab
   - name: Discord
-    url: https://discord.gg/CHANGE_ME
+    url: https://discord.gg/pb4UegTBYj
 
 # 後援
 sponsor:
